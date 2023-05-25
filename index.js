@@ -15,9 +15,7 @@ app.get('/api', async (req, res) => {
         status :"error",
         author :"Yunak"
 })
-console.log(country)
 let games = await freeGame(country);
-console.log(games)
 games.elements.forEach(element => {
   if (!element.promotions.promotionalOffers[0] || !element.promotions.promotionalOffers[0].promotionalOffers) return;
   
