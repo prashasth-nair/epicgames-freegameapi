@@ -15,8 +15,9 @@ app.get('/api', async (req, res) => {
         status :"error",
         author :"Yunak"
 })
-
+console.log(country)
 let games = await freeGame(country);
+console.log(games)
 games.elements.forEach(element => {
   if (!element.promotions.promotionalOffers[0] || !element.promotions.promotionalOffers[0].promotionalOffers) return;
   
@@ -57,8 +58,8 @@ games.elements.forEach(element => {
   
   async function freeGame(country) {
     try {
-      const response = await axios.get('https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?includeAll=true', {
-        params: { country: country , includeAll : "true"},
+      const response = await axios.get('https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions', {
+        params: { locale: country , includeAll : "true"},
         headers: { 'Access-Control-Allow-Origin': '*' }
       });
       return response.data.data.Catalog.searchStore;
