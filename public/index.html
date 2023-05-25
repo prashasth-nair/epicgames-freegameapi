@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Game List</title>
+</head>
+<body>
+  <h1>Free Game List</h1>
+  <label for="country-input">Enter Country Code:</label>
+  <input type="text" id="country-input" />
+  <button onclick="fetchGameList()">Get Games</button>
+  <div id="game-list"></div>
+
+  <script>
+    function fetchGameList() {
+      const countryInput = document.getElementById('country-input');
+      const country = countryInput.value.toUpperCase();
+      
+      const validCountries = ['TR', 'US', 'GB', 'DE', 'AR', 'ES', 'MX', 'FR', 'IT', 'JP', 'KR', 'PL', 'BR', 'RU', 'TH', 'CN', 'IN', 'GR'];
+      
+      if (country) {
+        if (validCountries.includes(country)) {
+          fetch(`/api?country=${country}`)
+            .then(response => response.json())
+            .then(data => {
+              const gameList = data.api;
+              const gameListContainer = document.getElementById('game-list');
+    
+              gameListContainer.innerHTML = ''; // Önceki listeyi temizle
+    
+              if (gameList.length === 0) {
+                gameListContainer.innerHTML = '<p>No games available.</p>';
+              } else {
+                gameList.forEach(game => {
+                  const gameElement = document.createElement('div');
+                  gameElement.innerHTML = `
+                    <h3>${game.title}</h3>
+                    <p>${game.description}</p>
+                    <p>Effective Date: ${game.effectiveDate}</p>
+                    <p>Offer Type: ${game.offerType}</p>
+                    <p>Status: ${game.status}</p>
+                    <p>Redemption Only with Code: ${game.isCodeRedemptionOnly ? 'Yes' : 'No'}</p>
+                    <p>Price: ${game.price} ${game.currencyCode}</p>
+                    <p>Author: Yunak</p>
+                    <hr>
+                  `;
+                  gameListContainer.appendChild(gameElement);
+                });
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        } else {
+          const gameListContainer = document.getElementById('game-list');
+          gameListContainer.innerHTML = '<p>Invalid country code. Please enter a valid country code.</p>';
+        }
+      }
+    }
+  </script>
+</body>
+</html>
