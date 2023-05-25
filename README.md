@@ -39,6 +39,8 @@ If you would like to contribute to this project, please fork the GitHub reposito
 
 We welcome all kinds of contributions and feedback!
 
+![image](https://github.com/Yunaks/epicgames-freegameapi/assets/64258925/30f5393b-1703-4116-aa84-5104349e14f9)
+
 ## License
 
 This project is licensed under the MIT License. For more details, refer to the [LICENSE](https://github.com/Yunaks/epicgames-freegameapi/blob/main/LICENSE) file.
