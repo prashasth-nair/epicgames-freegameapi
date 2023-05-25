@@ -1,4 +1,4 @@
-﻿const axios = require("axios")
+const axios = require("axios")
 const express = require('express')
 const app = express()
 const path = require("path")
@@ -16,19 +16,28 @@ app.get('/api', async (req, res) => {
         author :"Yunak"
 })
 
-    let games = await freeGame(country);
-    games.elements.forEach(element => {
-        gamelist.push({
-            title:element.title,
-            description:element.description,
-            effectiveDate:element.effectiveDate,
-            offerType:element.offerType,
-            status:element.status,
-            isCodeRedemptionOnly:element.isCodeRedemptionOnly,
-            price:element.price.totalPrice.originalPrice,
-            currencyCode:element.price.totalPrice.currencyCode,
-        })
-    });
+let games = await freeGame(country);
+games.elements.forEach(element => {
+  if (!element.promotions.promotionalOffers[0] || !element.promotions.promotionalOffers[0].promotionalOffers) return;
+  
+  let endDates = element.promotions.promotionalOffers[0].promotionalOffers[0].endDate;
+
+  let images = element.keyImages[0].url;
+
+  gamelist.push({
+    title: element.title,
+    description: element.description,
+    effectiveDate: element.effectiveDate,
+    offerType: element.offerType,
+    status: element.status,
+    isCodeRedemptionOnly: element.isCodeRedemptionOnly,
+    price: element.price.totalPrice.originalPrice,
+    currencyCode: element.price.totalPrice.currencyCode,
+    endDate: endDates,
+    image : images
+  });
+});
+
 
     res.send({
         author : "Yunak API",
@@ -48,8 +57,8 @@ app.get('/api', async (req, res) => {
   
   async function freeGame(country) {
     try {
-      const response = await axios.get('https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions', {
-        params: { country: country},
+      const response = await axios.get('https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?includeAll=true', {
+        params: { country: country , includeAll : "true"},
         headers: { 'Access-Control-Allow-Origin': '*' }
       });
       return response.data.data.Catalog.searchStore;
