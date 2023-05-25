@@ -2,6 +2,89 @@
 <html>
 <head>
   <title>Game List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    
+    label {
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    input[type="text"] {
+      padding: 5px;
+      margin-bottom: 10px;
+      text-align: center;
+
+    }
+    
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    #game-list {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .game-box {
+      width: 300px;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+    }
+    
+    .game-box:hover {
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .game-box h3 {
+      color: #333;
+      margin-top: 0;
+      text-align: center;
+    }
+    
+    .game-box img {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .game-box p {
+      margin-bottom: 5px;
+      text-align: center;
+    }
+    
+    .game-box hr {
+      margin-top: 10px;
+      margin-bottom: 5px;
+      border: none;
+      border-top: 1px solid #ccc;
+    }
+  </style>
 </head>
 <body>
   <h1>Free Game List</h1>
@@ -14,42 +97,56 @@
     function fetchGameList() {
       const countryInput = document.getElementById('country-input');
       const country = countryInput.value.toUpperCase();
-      
+
       const validCountries = ['TR', 'US', 'GB', 'DE', 'AR', 'ES', 'MX', 'FR', 'IT', 'JP', 'KR', 'PL', 'BR', 'RU', 'TH', 'CN', 'IN', 'GR'];
-      
+
       if (country) {
         if (validCountries.includes(country)) {
-          fetch(`/api?country=${country}`)
-            .then(response => response.json())
-            .then(data => {
-              const gameList = data.api;
-              const gameListContainer = document.getElementById('game-list');
-    
-              gameListContainer.innerHTML = ''; // Önceki listeyi temizle
-    
-              if (gameList.length === 0) {
-                gameListContainer.innerHTML = '<p>No games available.</p>';
-              } else {
-                gameList.forEach(game => {
-                  const gameElement = document.createElement('div');
-                  gameElement.innerHTML = `
-                    <h3>${game.title}</h3>
-                    <p>${game.description}</p>
-                    <p>Effective Date: ${game.effectiveDate}</p>
-                    <p>Offer Type: ${game.offerType}</p>
-                    <p>Status: ${game.status}</p>
-                    <p>Redemption Only with Code: ${game.isCodeRedemptionOnly ? 'Yes' : 'No'}</p>
-                    <p>Price: ${game.price} ${game.currencyCode}</p>
-                    <p>Author: Yunak</p>
-                    <hr>
-                  `;
-                  gameListContainer.appendChild(gameElement);
-                });
+          // Simulating API response with static data
+          const apiResponse = {
+            "author": "Yunak API",
+            "api": [
+              {
+                "title": "Fallout: New Vegas - Ultimate Edition",
+                "description": "Feel the Heat in New Vegas! Not even nuclear fallout could slow the hustle of Sin City. Explore the vast expanses of the desert wastelands and see the Great Southwest as could only be imagined in Fallout.",
+                "effectiveDate": "2099-01-01T00:00:00.000Z",
+                "offerType": "OTHERS",
+                "status": "ACTIVE",
+                "isCodeRedemptionOnly": true,
+                "price": 0,
+                "currencyCode": "TRY",
+                "endDate": "2023-06-01T15:00:00.000Z",
+                "image": "https://cdn1.epicgames.com/offer/d5241c76f178492ea1540fce45616757/fnv-port_1200x1600-45b1c7c6093bfc78539a8faeead2c929"
               }
-            })
-            .catch(error => {
-              console.log(error);
+            ]
+          };
+
+          const gameList = apiResponse.api;
+          const gameListContainer = document.getElementById('game-list');
+
+          gameListContainer.innerHTML = ''; // Clear previous game list
+
+          if (gameList.length === 0) {
+            gameListContainer.innerHTML = '<p>No games available.</p>';
+          } else {
+            gameList.forEach(game => {
+              const gameElement = document.createElement('div');
+              gameElement.classList.add('game-box');
+              gameElement.innerHTML = `
+                <h3>${game.title}</h3>
+                <img src="${game.image}" alt="Game Image">
+                <p>${game.description}</p>
+                <p>Effective Date: ${game.effectiveDate}</p>
+                <p>Offer Type: ${game.offerType}</p>
+                <p>Status: ${game.status}</p>
+                <p>Redemption Only with Code: ${game.isCodeRedemptionOnly ? 'Yes' : 'No'}</p>
+                <p>Price: ${game.price} ${game.currencyCode}</p>
+                <p>End Date: ${game.endDate}</p>
+                <p>Author: ${apiResponse.author}</p>
+              `;
+              gameListContainer.appendChild(gameElement);
             });
+          }
         } else {
           const gameListContainer = document.getElementById('game-list');
           gameListContainer.innerHTML = '<p>Invalid country code. Please enter a valid country code.</p>';
