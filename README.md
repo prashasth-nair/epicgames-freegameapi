@@ -41,4 +41,4 @@ We welcome all kinds of contributions and feedback!
 
 ## License
 
-This project is licensed under the MIT License. For more details, refer to the [LICENSE]((https://github.com/Yunaks/epicgames-freegameapi/blob/main/LICENSE) file.
+This project is licensed under the MIT License. For more details, refer to the [LICENSE](https://github.com/Yunaks/epicgames-freegameapi/blob/main/LICENSE) file.
