@@ -25,7 +25,7 @@ The application utilizes JavaScript libraries such as Express.js and Axios to ma
     
     Copy code
     
-    `node app.js` 
+    `node index.js` 
     
 5.  Go to `http://localhost:3000` in your browser.
 6.  Enter a country code in the input box under the "Enter Country Code" heading and click the "Get Games" button.
